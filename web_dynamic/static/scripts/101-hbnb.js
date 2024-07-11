@@ -41,46 +41,66 @@ window.addEventListener('load', function () {
       $('section.places').append('<h1>Places</h1>');
       for (const place of data) {
         const template = `<article>
-        <div class="title">
-        <h2>${place.name}</h2>
-        <div class="price_by_night">
-      $${place.price_by_night}
-      </div>
-        </div>
-        <div class="information">
-        <div class="max_guest">
-        <i class="fa fa-users fa-3x" aria-hidden="true"></i>
+          <div class="title">
+          <h2>${place.name}</h2>
+          <div class="price_by_night">
+	  $${place.price_by_night}
+	</div>
+          </div>
+          <div class="information">
+          <div class="max_guest">
+          <i class="fa fa-users fa-3x" aria-hidden="true"></i>
 
-        <br />
+          <br />
 
-      ${place.max_guest} Guests
+	${place.max_guest} Guests
 
-      </div>
-        <div class="number_rooms">
-        <i class="fa fa-bed fa-3x" aria-hidden="true"></i>
+	</div>
+          <div class="number_rooms">
+          <i class="fa fa-bed fa-3x" aria-hidden="true"></i>
 
-        <br />
+          <br />
 
-      ${place.number_rooms} Bedrooms
-      </div>
-        <div class="number_bathrooms">
-        <i class="fa fa-bath fa-3x" aria-hidden="true"></i>
+	${place.number_rooms} Bedrooms
+	</div>
+          <div class="number_bathrooms">
+          <i class="fa fa-bath fa-3x" aria-hidden="true"></i>
+          <br />
+	  ${place.number_bathrooms} Bathroom
+	</div>
+	  </div>
+          <div class="description">
+	  ${place.description}
+	</div>
+	  <div class="reviews">
+	  <h2>Reviews <span class="reviewSpan" data-id="${place.id}">show</span></h2>
+	  <ul>
+	  </ul>
+	  </div>
 
-        <br />
-
-      ${place.number_bathrooms} Bathroom
-
-      </div>
-        </div>
-        <div class="description">
-
-      ${place.description}
-
-      </div>
-
-      </article> <!-- End 1 PLACE Article -->`;
+	</article> <!-- End 1 PLACE Article -->`;
         $('section.places').append(template);
       }
+      // Task 7: get reviews for each place (add to the places post request for loop?)
+      $('.reviewSpan').click(function (event) {
+        $.ajax('http://0.0.0.0:5001/api/v1/places/' + $(this).attr('data-id') + '/reviews').done(function (data) {
+//          console.log($(this).text());
+	  $('span').addClass('hideReview');
+//	  console.log($('span'));
+//	  $('span').toggle('reviewSpan hideReview');
+          if ($('.reviewSpan').text('show')) {
+            for (const review of data) {
+              $('.reviews ul').append(`<li>${review.text}</li>`);
+            }
+	    console.log($('.reviewSpan li'));
+	    $('.hideReview').text('hide');
+//	    console.log($('.hideReiew'));
+          } else if ($('.hideReview').text('hide')){
+            $('.reviews ul').empty();
+	    $('.reviewSpan').text('show');
+          }
+        });
+      });
     });
   });
 

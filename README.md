@@ -2,7 +2,7 @@
 
 # AirBnB Clone: Phase # 4
 
-: Connect backend to frontend. Give life to search button that filters available housing based on states, cities, and amenities selected.
+Web dynamic with JQuery
 
 ## Description
 
@@ -32,49 +32,44 @@ HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_test_db HBNB_TYPE_STORAGE=db \
 [COMMAND HERE]
 ```
 
+## Run the web_dynamic version
+
+To run this inside vagrant, add those two lines to the Vagrantfile:
+```
+config.vm.network :forwarded_port, guest: 5000, host: 5000
+config.vm.network :forwarded_port, guest: 5001, host: 5001
+```
+
+The API will run on port 5001 and the page will run on port 5000.
+
+In a first terminal inside the repo, run the API:
+```
+HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db HBNB_API_PORT=5001 python3 -m api.v1.app
+```
+
+In a second window inside the repo, run a page (for example 100-hbnb):
+```
+HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db HBNB_API_PORT=5000 python3 -m web_dynamic.100-hbnb
+```
+
+All the web dynamic Flask scripts, HTML templates and Javascript scripts are in the foler [web_dynamic](./web_dynamic).
+
 ## Environment
 
 * __OS:__ Ubuntu 14.04 LTS
 * __language:__ Python 3.4.3
-* __frontend:__ Javascript, jQuery, Ajax
 * __web server:__ nginx/1.4.6
 * __application server:__ Flask 0.12.2, Jinja2 2.9.6
 * __web server gateway:__ gunicorn (version 19.7.1)
-* __database:__ mysql Ver 14.14 Distrib 5.7.18, SQLAlchemy
+* __database:__ mysql Ver 14.14 Distrib 5.7.18
 * __documentation:__ Swagger (flasgger==0.6.6)
 * __style:__
   * __python:__ PEP 8 (v. 1.7.0)
   * __web static:__ [W3C Validator](https://validator.w3.org/)
   * __bash:__ ShellCheck 0.3.3
+  * __javascript__: semistandard
 
 <img src="https://github.com/jarehec/AirBnB_clone_v3/blob/master/dev/hbnb_step5.png" />
-
-## Configuration Files
-
-The `/config/` directory contains configuration files for `nginx` and the
-Upstart scripts.  The nginx configuration file is for the configuration file in
-the path: `/etc/nginx/sites-available/default`.  The enabled site is a sym link
-to that configuration file.  The upstart script should be saved in the path:
-`/etc/init/[FILE_NAME.conf]`.  To begin this service, execute:
-
-```
-$ sudo start airbnb.conf
-```
-This script's main task is to execute the following `gunicorn` command:
-
-```
-$ gunicorn --bind 127.0.0.1:8001 wsgi.wsgi:web_flask.app
-```
-
-The `gunicorn` command starts an instance of a Flask Application.
-
----
-
-### Web Server Gateway Interface (WSGI)
-
-All integration with gunicorn occurs with `Upstart` `.conf` files.  The python
-code for the WSGI is listed in the `/wsgi/` directory.  These python files run
-the designated Flask Application.
 
 ## Setup
 
@@ -206,14 +201,11 @@ create: create [ARG] [PARAM 1] [PARAM 2] ...
 
 ---
 
-### Continuous Integration Tests
-
-Uses [Travis-CI](https://travis-ci.org/) to run all tests on all commits to the
-github repo
-
 ## Authors
 
-* Kimberly Wong, [Gerges-Creative](https://github.com/Gerges-Creative) | [Gmail](gerges.zechariah@gmail.com)
+V4 made by:
+
+* Gerges Zechariah, [Gerges-Creative](https://github.com/Gerges-Creative) | [Gmail](gerges.zechariah@gmail.com)
 
 ## License
 
